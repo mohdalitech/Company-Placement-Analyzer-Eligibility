@@ -22,7 +22,7 @@ if "button_clicked" not in st.session_state:
     st.session_state.button_clicked=False
 if "verify_code" not in st.session_state:
     st.session_state.verify_code=False
-if(st.button("Check User Type",type="primary")):
+if(st.button("Submit User Type",type="primary")):
     st.session_state.button_clicked=True
 if  st.session_state.button_clicked:
     if(user_type=="new user"):
@@ -35,16 +35,18 @@ if  st.session_state.button_clicked:
             "Select your branch :",
             ["CS","IT"]
         )
+        if "unique_id" not in st.session_state:
+            st.session_state.unique_id=0
         phone_number=st.text_input("Enter your 10 digit phone number : ")
         roll_no=st.text_input("Enter your 13 digit roll number ")
-        unqiue_id=f"{user_name}@{roll_no[9:]}:{year}-{branch}"
+        st.session_state.unique_id=f"{user_name}@{roll_no[9:]}:{year}-{branch}"
         if(st.button("Submit",type="primary")):
             pywhatkit.sendwhatmsg_instantly(
                 f"+91{phone_number}",
                 f"""
                 Congratulations! Your unique id is generated.
 Don't share it with anyone.
-Unique ID : {unqiue_id}""" 
+Unique ID : {st.session_state.unique_id}""" 
             )
             st.success(f"Code sent to your phone nummber..!")
             # if "code_sent" not in st.session_state:
@@ -53,12 +55,13 @@ Unique ID : {unqiue_id}"""
         if(st.button("Verify Code",type="primary")):
             st.session_state.verify_code=True
         if st.session_state.verify_code:
-            if(check_code==unqiue_id):
+            if(check_code==st.session_state.unique_id):
                 st.success("Congrats, Entry Permitted..!!")
                 query="""INSERT INTO user_info
                 VALUES(%s,%s)"""
-                cursor.execute(query,(user_name,unqiue_id))
+                cursor.execute(query,(user_name,st.session_state.unqiue_id))
                 connection.commit()
+                st.switch_page("pages/eligibility.py")
 
             else:
                 st.error("Entry Restricted..!!")
@@ -72,5 +75,7 @@ Unique ID : {unqiue_id}"""
             results=cursor.fetchone()
             if(results["user_name"]==exist_user.lower() and results["unique_id"]==exist_id):
                 st.success("Congrats, Entry Permitted..!!")
+                st.session_state.unique_id=results["unique_id"]
+                st.switch_page("pages/eligibility.py")
             else:
                 st.error("Entry Restricted..!!")
