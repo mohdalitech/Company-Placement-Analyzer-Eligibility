@@ -7,7 +7,7 @@ connection=mysql.connector.connect(
     database="placement"
 )
 cursor=connection.cursor(dictionary=True)
-st.header("Company Placement Analysis")
+st.header("Company Eligibility Analysis")
 st.divider()
 query="""SELECT user_name,unique_id FROM user_info"""
 cursor.execute(query)
@@ -18,10 +18,13 @@ st.divider()
 #student data collection and insertion
 if "check_eligible" not in st.session_state:
     st.session_state.check_eligible=False
+if "company" not in st.session_state:
+    st.session_state.company=""
 company=st.selectbox(
     "Which company are you interested to check your eligibility ?",
     ["TCS","Wipro","Infosys","Accenture","Google"]
 )
+st.session_state.company=company
 cgpa=st.number_input("What is your current cgpa ?")
 branch=st.radio(
     "Select your branch :",
@@ -36,8 +39,12 @@ if(st.button("Check Your Eligibility",type="primary")):
 if st.session_state.check_eligible:
     try:
         query="""INSERT INTO student(Name,UserID)
-        SELECT user_name,unique_id 
-        FROM user_info"""
+        SELECT u.user_name,u.unique_id 
+        FROM user_info as u
+        WHERE NOT EXISTS(
+        SELECT 1
+        FROM student as s
+        WHERE s.UserID=u.unique_id)"""
         cursor.execute(query)      
         connection.commit()
         query="""UPDATE student
@@ -82,4 +89,14 @@ if st.session_state.check_eligible:
             WHERE UserID=%s"""
             cursor.execute(query,(result["unique_id"],))
             select=cursor.fetchone()
-            st.write(f"<b>{select["Eligible/Not Eligible"]}</b>",unsafe_allow_html=True)
+            # st.write(f"<b>{select["Eligible/Not Eligible"]}</b>",unsafe_allow_html=True)
+            if(select["Eligible/Not Eligible"]=="Eligible"):
+                st.write(f"<b>Congratulations, You are eligible for {company}..!</b>",unsafe_allow_html=True)
+                if(st.button("Next Page",type="primary")):
+                    st.switch_page("pages/profile.py")
+                if(st.button("Previous Page",type="primary")):
+                    st.switch_page("pages/app.py")
+            else:
+                st.write(f"<b>You are not eligible for {company}..!</b>",unsafe_allow_html=True)
+                if(st.button("Previous Page",type="primary")):
+                    st.switch_page("pages/app.py")
