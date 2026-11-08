@@ -21,18 +21,27 @@ if "check_eligible" not in st.session_state:
     st.session_state.check_eligible=False
 if "company" not in st.session_state:
     st.session_state.company=""
+if "cgpa" not in st.session_state:
+    st.session_state.cgpa=0.0
+if "percent" not in st.session_state:
+    st.session_state.percent=0.0
+if "back" not in st.session_state:
+    st.session_state.back=0
 company=st.selectbox(
     "Which company are you interested to check your eligibility ?",
     ["TCS","Wipro","Infosys","Accenture","Google"]
 )
 st.session_state.company=company
 cgpa=st.number_input("What is your current cgpa ?")
+st.session_state.cgpa=cgpa
 branch=st.radio(
     "Select your branch :",
     ["CS","IT","AIML","CSE"]
 )
 backlogs=st.number_input("How many backlogs you have ?")
+st.session_state.back=backlogs
 percentage=st.number_input("How much is your percentage ?")
+st.session_state.percent=percentage
 if "data_insert" not in st.session_state:
     st.session_state.data_insert=False
 if(st.button("Check Your Eligibility",type="primary")):
