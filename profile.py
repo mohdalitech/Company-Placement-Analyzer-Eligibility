@@ -27,6 +27,18 @@ if "prjt" not in st.session_state:
 if "cert" not in st.session_state:
     st.session_state.cert=False
 
+#tracking what's present and what's missing
+if "all_pre" not in st.session_state:
+    st.session_state.all_pre=False
+if "miss_tech" not in st.session_state:
+    st.session_state.miss_tech=False
+if "miss_skill" not in st.session_state:
+    st.session_state.miss_skill=False
+if "miss_cert" not in st.session_state:
+    st.session_state.miss_cert=False
+if "miss_prjt" not in st.session_state:
+    st.session_state.miss_prjt=False
+
 if st.session_state.upload:
     if resume is not None:
         st.success("Resume uploaded successfully..!")
@@ -132,30 +144,35 @@ if st.session_state.upload:
                 prjt=True
             if tech_skills and tech and cert and prjt:
                 st.write(f"<b> Congratulations! Your resume has all necessary technical skills, technologies, certification, projects for {st.session_state.company}..!</b>",unsafe_allow_html=True)
+                st.session_state.all_pre=True
                 if(st.button("Next Page",type="primary")):
                     st.switch_page("pages/ques.py")
                 if(st.button("Previous Page",type="primary")):
                     st.switch_page("pages/academic.py")
             elif(not tech_skills):
                 st.write(f"<b> Your resume don't has necessary technical skills for {st.session_state.company}..!</b>",unsafe_allow_html=True)
+                st.session_state.miss_skill=False
                 if(st.button("Previous Page",type="primary")):
                     st.switch_page("pages/academic.py")
                 if(st.button("Next Page",type="primary")):
                     st.switch_page("pages/ques.py")
             elif(not tech):
                 st.write(f"<b> Your resume don't has necessary technologies for {st.session_state.company}..!</b>",unsafe_allow_html=True)
+                st.session_state.miss_tech=True
                 if(st.button("Previous Page",type="primary")):
                     st.switch_page("pages/academic.py")
                 if(st.button("Next Page",type="primary")):
                      st.switch_page("pages/ques.py")
             elif(not cert):
                  st.write(f"<b> Your resume don't has necessary certifications for {st.session_state.company}..!</b>",unsafe_allow_html=True)
+                 st.session_state.miss_cert=True
                  if(st.button("Previous Page",type="primary")):
                      st.switch_page("pages/academic.py")
                  if(st.button("Next Page",type="primary")):
                     st.switch_page("pages/ques.py")
             else:
                  st.write(f"<b> Your resume don't has necessary projects for {st.session_state.company}..!</b>",unsafe_allow_html=True)
+                 st.session_state.miss_prjt=True
                  if(st.button("Previous Page",type="primary")):
                      st.switch_page("pages/academic.py")
                  if(st.button("Next Page",type="primary")):
