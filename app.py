@@ -77,7 +77,7 @@ Unique ID : {st.session_state.unique_id}"""
                 st.switch_page("pages/academic.py")
     else:
         exist_user=st.text_input("Enter your name : ")
-        exist_id=st.text_input("Emter your unique id : ")
+        exist_id=st.text_input("Enter your unique id : ")
         if(st.button("Submit",type="primary")):
             query="""SELECT user_name,unique_id
             FROM user_info"""
