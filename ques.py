@@ -232,7 +232,7 @@ if st.session_state.analyze:
         if(result["status"]=="Wrong"):
             st.write(f"Wrong : {result["count"]}")
         elif(result["status"]=="Correct"):
-            st.write(f"Correct : {result["count"]}")
+            st.write(f"Number of Correct Questions : {result["count"]}")
     query="""SELECT QNo FROM aptitude
     WHERE Status=%s"""
     cursor.execute(query,("Wrong",))
@@ -250,7 +250,7 @@ if st.session_state.analyze:
         if(result["status"]=="Wrong"):
             st.write(f"Wrong : {result["count"]}")
         elif(result["status"]=="Correct"):
-            st.write(f"Correct : {result["count"]}")
+            st.write(f"Number of Correct Questions : {result["count"]}")
     query="""SELECT QNo FROM technical
     WHERE Status=%s"""
     cursor.execute(query,("Wrong",))
@@ -268,7 +268,7 @@ if st.session_state.analyze:
         if(result["status"]=="Wrong"):
             st.write(f"Wrong : {result["count"]}")
         elif(result["status"]=="Correct"):
-            st.write(f"Correct : {result["count"]}")
+            st.write(f"Number of Correct Questions : {result["count"]}")
     query="""SELECT QNo FROM program
     WHERE Status=%s"""
     cursor.execute(query,("Wrong",))
@@ -286,7 +286,7 @@ if st.session_state.analyze:
         if(result["status"]=="Wrong"):
             st.write(f"Wrong : {result["count"]}")
         elif(result["status"]=="Correct"):
-            st.write(f"Correct : {result["count"]}")
+            st.write(f"Number of Correct Questions : {result["count"]}")
     query="""SELECT QNo FROM sql_quiz
     WHERE Status=%s"""
     cursor.execute(query,("Wrong",))
