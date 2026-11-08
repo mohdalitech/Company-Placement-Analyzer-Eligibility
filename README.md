@@ -1,4 +1,4 @@
-# 🚀 Company Placement Eligibility Analyzer & Skill Assessment Suite
+# 🚀 Company Placement Eligibility Analyzer
 
 An interactive multi-page **Streamlit** web application integrated with a **MySQL** database designed to help university students check company placement eligibility, analyze resumes against target job requirements, and evaluate technical/aptitude skills through structured quizzes.
 
