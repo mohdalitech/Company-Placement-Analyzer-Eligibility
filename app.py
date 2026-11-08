@@ -8,7 +8,7 @@ connection=mysql.connector.connect(
     database="placement"
 )
 cursor=connection.cursor(dictionary=True)
-st.header("Company Placement Analyzer Eligibility")
+st.header("Company Placement Eligibility Analyzer")
 st.divider()
 
 #user details form
