@@ -1,11 +1,11 @@
 import streamlit as st
 import pywhatkit
 import mysql.connector
-connection=mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="REDACTED",
-    database="placement"
+connection = mysql.connector.connect(
+    host=st.secrets["mysql"]["host"],
+    user=st.secrets["mysql"]["user"],
+    password=st.secrets["mysql"]["password"],
+    database=st.secrets["mysql"]["database"]
 )
 cursor=connection.cursor(dictionary=True)
 st.header("Company Placement Eligibility Analyzer")
