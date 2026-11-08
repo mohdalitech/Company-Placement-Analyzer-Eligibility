@@ -9,8 +9,9 @@ connection=mysql.connector.connect(
 cursor=connection.cursor(dictionary=True)
 st.header("Company Eligibility Analysis")
 st.divider()
-query="""SELECT user_name,unique_id FROM user_info"""
-cursor.execute(query)
+query="""SELECT user_name,unique_id FROM user_info
+WHERE unique_id=%s"""
+cursor.execute(query,(st.session_state.unique_id,))
 result=cursor.fetchone()
 st.subheader(f"User Name : {result["user_name"]}")
 st.subheader(f"Unique ID : {result["unique_id"]}")
@@ -95,8 +96,8 @@ if st.session_state.check_eligible:
                 if(st.button("Next Page",type="primary")):
                     st.switch_page("pages/profile.py")
                 if(st.button("Previous Page",type="primary")):
-                    st.switch_page("pages/app.py")
+                    st.switch_page("app.py")
             else:
                 st.write(f"<b>You are not eligible for {company}..!</b>",unsafe_allow_html=True)
                 if(st.button("Previous Page",type="primary")):
-                    st.switch_page("pages/app.py")
+                    st.switch_page("app.py")
